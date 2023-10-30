@@ -75,7 +75,7 @@ class Request
 		}
 		//object {data: {}, resource: null}
 		self::$data = $rawData?->data ? $rawData->data : new \stdClass;
-		self::$resource = $rawData?->resource ? $rawData->resource : null;
+		self::$resource = $rawData?->resource;
 	}
 	public static function getData()
 	{
