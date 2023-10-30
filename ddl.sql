@@ -5,7 +5,9 @@ CREATE TABLE usuario(
     nome VARCHAR(100) NOT NULL,
     email VARCHAR(100) NOT NULL,
     telefone INT NOT NULL,
-    perfil VARCHAR(20) NOT NULL
+    perfil VARCHAR(20) NOT NULL,
+    usuario varchar(20) NOT NULL,
+    senha VARCHAR(255) NOT NULL
 );
 
 CREATE TABLE servico(
@@ -36,3 +38,7 @@ CREATE TABLE agendamento_log(
 );
 ALTER TABLE agendamento_log ADD CONSTRAINT fk_agendamento_id FOREIGN KEY (agendamento_id) REFERENCES agendamento(id);
 ALTER TABLE agendamento_log ADD CONSTRAINT fk_servico_situacao_id FOREIGN KEY (servico_situacao_id) REFERENCES servico_situacao(id);
+
+--DML (criação do usuário principal)
+INSERT INTO usuario (nome, email, telefone, perfil, usuario, senha)
+VALUES('Leila', 'leila@email.com', 11955554444, 'Gerente', 'leila', SHA1('123456'));
