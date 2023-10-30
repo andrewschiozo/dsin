@@ -12,6 +12,8 @@ abstract class DB extends \PDO implements \JsonSerializable
     protected $view;
     protected Model $model;
 
+    protected $dao;
+
     public function __construct($config = Config::SYSDB)
     {
         try
@@ -55,4 +57,20 @@ abstract class DB extends \PDO implements \JsonSerializable
         }
 		return $obj;
 	}
+
+    public function get($id = null)
+    {
+        $queryString = 'SELECT * FROM ' . $this->table . ' WHERE 1 = 1 ';
+        $queryString .= $id ? ' AND id = ' . $id : '';
+        
+        $result = [];
+        try {
+            $stmt = $this->getConn()->prepare($queryString);
+            $stmt->execute();
+            $result = $stmt->fetchAll(\PDO::FETCH_CLASS, $this->dao);
+        } catch (\PDOException $e) {
+            echo $e->getMessage();
+        }
+        return $result;
+    }
 }
