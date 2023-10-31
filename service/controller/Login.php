@@ -74,7 +74,7 @@ class Login extends Controller
 
 		$Clientes = new \stdClass;
 		$Clientes->nome = 'Clientes';
-		$Clientes->icone = 'fa-solid fa-list';
+		$Clientes->icone = 'fa-solid fa-users';
 		$Clientes->href = 'cliente/cliente';
 		$menus[] = $Clientes;
 
