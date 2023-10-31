@@ -46,6 +46,7 @@ class Login extends Controller
 				,'email' => $DaoUsuario->email
 				,'telefone' => $DaoUsuario->telefone
 				,'perfil' => $DaoUsuario->perfil
+				,'menu' => $this->getMenu()
 			]
 		];
 		
@@ -54,4 +55,36 @@ class Login extends Controller
 				->addData($jwToken, 'token')
 				->ok();
 	}
+
+	private function getMenu()
+	{
+		$menus = [];
+
+		$Home = new \stdClass;
+		$Home->nome = 'Home';
+		$Home->icone = 'fa-solid fa-house';
+		$Home->href = 'home/home';
+		$menus[] = $Home;
+
+		$Agenda = new \stdClass;
+		$Agenda->nome = 'Agenda';
+		$Agenda->icone = 'fa-solid fa-list';
+		$Agenda->href = 'agenda/agenda';
+		$menus[] = $Agenda;
+
+		$Clientes = new \stdClass;
+		$Clientes->nome = 'Clientes';
+		$Clientes->icone = 'fa-solid fa-list';
+		$Clientes->href = 'cliente/cliente';
+		$menus[] = $Clientes;
+
+		$Servicos = new \stdClass;
+		$Servicos->nome = 'Serviços';
+		$Servicos->icone = 'fa-solid fa-scissors';
+		$Servicos->href = 'servico/servico';
+		$menus[] = $Servicos;
+
+		return $menus;
+	}
+
 }
