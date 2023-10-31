@@ -38,19 +38,19 @@ $(function(){
 
     Leila.save();
 
-    loadView('login/login')
+    loadView('login/login', '#view')
 })
 
-function loadView(view){
-    $('#view').html('')
+function loadView(view, selector = '#app-page'){
+    $(selector).html('')
     $.get('views/' + view + '.html', function(data){
-        $('#view').html(data)
+        $(selector).html(data)
     })
 }
 
 function sair(){
     Leila.sair()
-    loadView('login/login')
+    loadView('login/login', '#view')
 }
 
 function parseJwt (token) {
