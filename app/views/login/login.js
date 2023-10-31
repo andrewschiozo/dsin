@@ -20,6 +20,6 @@ $('#btn-login').click(function(){
         Leila.data.usuario = parseJwt(response.data.token)
         Leila.save()
 
-        loadView('home/home')
+        loadView('home/home', '#view')
     })
 })
