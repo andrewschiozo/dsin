@@ -38,19 +38,19 @@ $(function(){
 
     Leila.save();
 
-    loadView('views/login/login')
+    loadView('login/login')
 })
 
 function loadView(view){
     $('#view').html('')
-    $.get(view + '.html', function(data){
+    $.get('views/' + view + '.html', function(data){
         $('#view').html(data)
     })
 }
 
 function sair(){
     Leila.sair()
-    loadView('views/login/login')
+    loadView('login/login')
 }
 
 function parseJwt (token) {
@@ -76,7 +76,10 @@ $.requestService = function({route, method = 'GET', data = {}, resource = null, 
             callback(response)
         }
         ,error: function(request){
-            $.notify({message: 'Wooops! Não foi possível fazer isso'},{type: 'danger'})
+            if(request.responseJSON.message.length == 0)
+            {
+                $.notify({message: 'Wooops! Não foi possível fazer isso'},{type: 'danger'})
+            }
         }
         ,complete: function(request)
         {
