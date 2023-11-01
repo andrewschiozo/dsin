@@ -1,5 +1,9 @@
 <h3 class="h3 mb-4 text-gray-800">Clientes</h3>
 
+<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="limparForm()">
+    <i class="fa fa-plus"></i> Novo
+</button>
+
 <table id="tbl-Cliente" class="table table-sm table-hover table-striped">
     <thead class="thead-dark">
         <tr>
@@ -12,5 +16,40 @@
     </thead>
     <tbody></tbody>
 </table>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="modalClienteLabel">Cliente #<span class="inputFormCliente" id="id"></span></h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <form id="formCliente" role="form">
+            <div class="modal-body row">
+                <div class="form-group col-12">
+                    <small><label class="mb-0">Nome</label></small>
+                    <input type="text" class="form-control inputFormCliente" id="nome" placeholder="Nome" required>
+                </div>
+
+                <div class="form-group col-12">
+                    <small><label class="mb-0">E-mail</label></small>
+                    <input type="email" class="form-control inputFormCliente" id="email" placeholder="E-mail" required>
+                </div>
+
+                <div class="form-group col-12">
+                    <small><label class="mb-0">Telefone</label></small>
+                    <input type="texto" class="form-control inputFormCliente" id="telefone" placeholder="Telefone" required>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <div class="col-12">
+                    <button type="submit" class="col-12 btn btn-primary btn-block" id="btn-salvar">Salvar</button>
+                </div>
+            </div>
+        </form>
+    </div>
+    </div>
+</div>
 
 <script src="views/cliente/cliente.js"></script>
