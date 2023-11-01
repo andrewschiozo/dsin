@@ -46,4 +46,13 @@ abstract class PrivateController extends Controller
 		$Now = $Now->getTimestamp();
 		return ($tokenExpiration > $Now);
 	}
+
+	protected function checkPerfil()
+	{
+		if(Request::getDecodedToken()->data->perfil != 'Gerente')
+		{
+			Response::getInstance()
+					->unauthorized();
+		}
+	}
 }
