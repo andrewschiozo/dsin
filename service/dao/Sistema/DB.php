@@ -11,8 +11,9 @@ abstract class DB extends \PDO implements \JsonSerializable
     protected $table;
     protected $view;
     protected Model $model;
-
     protected $dao;
+
+    protected $blackList = ['conn', 'table', 'view', 'model', 'dao', 'blackList'];
 
     public function __construct($config = Config::SYSDB)
     {
@@ -47,10 +48,10 @@ abstract class DB extends \PDO implements \JsonSerializable
     public function jsonSerialize()
 	{
 		$obj = new \stdClass();
-        $blackList = ['conn', 'table', 'view', 'model'];
+        
         foreach(get_object_vars($this) as $attr => $value)
         {
-            if(!in_array($attr, $blackList))
+            if(!in_array($attr, $this->blackList))
             {
                 $obj->$attr = $value;
             }
