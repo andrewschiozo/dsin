@@ -26,3 +26,26 @@ tblCliente.__proto__.reload = function(){
 }
 
 tblCliente.reload()
+
+function limparForm()
+{
+    $('.inputFormCliente').text('')
+    $('.inputFormCliente').val('')
+}
+
+function popularForm(Cliente)
+{
+    limparForm()
+
+    $('#id').text(Cliente.id)
+    $('#nome').val(Cliente.nome)
+    $('#email').val(Cliente.email)
+    $('#telefone').val(Cliente.telefone)
+
+    $('#modalCliente').modal('show')
+}
+
+$('#tbl-Cliente tbody').on('dblclick', 'tr', function () {
+    popularForm(tblCliente.row(this).data())
+    $('#modalCliente').modal('show')
+})
