@@ -9,7 +9,7 @@ class ModelUsuario extends Model
 	protected string $nome;
 	protected string $email;
 	protected int $telefone;
-	protected string $perfil;
+	protected string $perfil = 'Cliente';
 	protected string $usuario;
 	protected string $senha;
 
@@ -26,6 +26,12 @@ class ModelUsuario extends Model
 					$this->$attr = sha1($val);
 					break;
 				
+				case 'perfil':
+					if(in_array($val, ['Gerente', 'Cliente']))
+						$this->$attr = $val;
+
+					break;
+				
 				default:
 					$this->$attr = $val;
 					break;
@@ -38,6 +44,11 @@ class ModelUsuario extends Model
 		$senha = bin2hex(random_bytes(8));
 		$this->__set('senha', $senha);
 		return $senha;
+	}
+
+	public function setSenha($senha)
+	{
+		$this->senha = $senha;
 	}
 
 	public function removeAttr($attr)
