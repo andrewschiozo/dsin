@@ -9,15 +9,14 @@ tblCliente =  $('#tbl-Cliente').DataTable({
         ,{ data: 'nome' }
         ,{ data: 'email' }
         ,{ data: 'telefone' }
-        ,{ data: null, className: 'text-center', render: function(data){
-            return '--'
-        }}
+        ,{ data: 'usuario' }
     ]
 })
 
 tblCliente.__proto__.reload = function(){
 
     config.method = 'GET'
+    config.data = {}
     
     $.requestService(config, function(response){
         tblCliente.clear()
@@ -48,4 +47,38 @@ function popularForm(Cliente)
 $('#tbl-Cliente tbody').on('dblclick', 'tr', function () {
     popularForm(tblCliente.row(this).data())
     $('#modalCliente').modal('show')
+})
+
+
+$('#formCliente').submit(function(e){
+    e.preventDefault()
+
+    $('#btn-salvar').attr('disabled', 'disable')
+
+    // if(!validarForm())
+    //     return
+
+    config.method = 'POST'
+
+    config.data = {
+        nome: $('#nome').val()
+        ,email: $('#email').val()
+        ,telefone: $('#telefone').val()
+    }
+
+    if($('#id').text())
+    {
+        config.data.id = $('#id').text()
+        config.method = 'PUT'
+    }
+
+    $.requestService(config, (response) => {
+        if(response.data.senha)
+            $.notify({title: 'Senha: ', message: '<strong>' + response.data.senha + '</strong>'})
+        
+        limparForm()
+        $('#modalCliente').modal('hide')
+        tblCliente.reload()
+    })
+    $('#btn-salvar').removeAttr('disabled')
 })
