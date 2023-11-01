@@ -47,7 +47,22 @@ class DaoUsuario extends DB
         }
         return $result;
     }
-
+    public function getCliente($id = null)
+    {
+        $queryString = 'SELECT *
+                        FROM ' . $this->table . ' WHERE 1 = 1 ';
+        $queryString .= is_null($id) ? '' : ' AND id = '. $id;
+        
+        $result = [];
+        try {
+            $stmt = $this->getConn()->prepare($queryString);
+            $stmt->execute();
+            $result = $stmt->fetchAll();
+        } catch (\PDOException $e) {
+            echo $e->getMessage();
+        }
+        return $result;
+    }
     public function save($id = null)
     {
         return $id ? $this->update($id) : $this->insert();

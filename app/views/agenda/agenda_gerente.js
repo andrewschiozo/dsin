@@ -11,11 +11,9 @@ tblAgenda =  $('#tbl-Agenda').DataTable({
             d = new Date(data)
             return d.toLocaleString()
         } }
+        ,{ data: 'cliente'}
         ,{ data: 'servico' }
         ,{ data: 'situacao' }
-        ,{ data: null, render: function(){
-            return ''
-        } }
     ]
     ,createdRow: function (row, data, dataIndex) {
         className = ''
@@ -31,6 +29,10 @@ tblAgenda =  $('#tbl-Agenda').DataTable({
             case 'Finalizado':
                 className = 'table-success'
                 break;
+
+            case 'Cancelado':
+                className = 'table-danger'
+                break;
         }
         $(row).addClass(className);
     }
@@ -40,7 +42,6 @@ tblAgenda.__proto__.reload = function(){
 
     config.route = 'Agenda'
     config.method = 'GET'
-    config.resource = 'listar'
     config.data = {}
     
     $.requestService(config, function(response){
@@ -51,6 +52,8 @@ tblAgenda.__proto__.reload = function(){
 
 tblAgenda.reload()
 getServicos()
+getClientes()
+getServicoStatus()
 
 function getServicos()
 {
@@ -67,10 +70,61 @@ function getServicos()
     })
 }
 
+function getServicoStatus()
+{
+    config.route = 'Servico'
+    config.method = 'GET'
+    config.data = {}
+    config.resource = 'getStatus';
+        
+    $.requestService(config, function(response){
+        $.each(response.data, function(index, status){
+            $('#status').append($('<option>').val(status.id)
+                                            .text(status.nome))
+        })
+    })
+}
+
+function getClientes()
+{
+    config.route = 'Usuario'
+    config.method = 'GET'
+    config.data = {}
+    config.resource = 'getCliente';
+        
+    $.requestService(config, function(response){
+        $.each(response.data, function(index, cliente){
+            $('#cliente').append($('<option>').val(cliente.id)
+                                            .text(cliente.nome))
+        })
+    })
+}
+
 function limparForm()
 {
     $('.inputFormAgenda').val('')
 }
+
+
+function popularForm(Agenda)
+{
+    limparForm()
+
+    $('#id').text(Agenda.id)
+    $('#servico').val(Agenda.servico_id)
+    $('#cliente-nome').text(Agenda.cliente)
+    $('#cliente').val(Agenda.cliente_id)
+    $('#data').val(Agenda.data)
+    $('#status').val(Agenda.situacao_id)
+
+
+    $('#modalCliente').modal('show')
+}
+
+$('#tbl-Agenda tbody').on('dblclick', 'tr', function () {
+    popularForm(tblAgenda.row(this).data())
+    $('#modalAgenda').modal('show')
+})
 
 $('#formAgenda').submit(function(e){
     e.preventDefault()
@@ -81,11 +135,18 @@ $('#formAgenda').submit(function(e){
     //     return
     config.route = 'Agenda'
     config.method = 'POST'
-    config.resource = 'agendar'
 
     config.data = {
-        servico: $('#servico').val()
+         cliente: $('#cliente').val()
+        ,servico: $('#servico').val()
         ,data: $('#data').val()
+        ,status: $('#status').val()
+    }
+
+    if($('#id').text())
+    {
+        config.data.id = $('#id').text()
+        config.method = 'PUT'
     }
 
     $.requestService(config, (response) => {

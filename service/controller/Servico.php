@@ -18,4 +18,16 @@ class Servico extends PrivateController
 				->ok();
 	}
 
+	public function getStatus()
+	{
+		$this->checkPerfil();
+		
+		$DaoServico = new DaoServico();
+		
+		$status = $DaoServico->getStatus();
+		Response::getInstance()
+				->setData($status)
+				->ok();
+	}
+
 }

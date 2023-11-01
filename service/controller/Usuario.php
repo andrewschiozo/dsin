@@ -13,10 +13,23 @@ class Usuario extends PrivateController
         $this->checkPerfil();
         
         $id = property_exists(Request::getData(), 'id') ? Request::getData()->id : null;
-        $allColumns = property_exists(Request::getData(), 'allColumns') ? Request::getData()->allColumns : false;
 
 		$DaoUsuario = new DaoUsuario();
 		$usuarios = $DaoUsuario->get($id);
+        
+		Response::getInstance()
+				->setData($usuarios)
+				->ok();
+	}
+
+	public function getCliente()
+	{
+		$this->checkPerfil();
+        
+        $id = property_exists(Request::getData(), 'id') ? Request::getData()->id : null;
+
+		$DaoUsuario = new DaoUsuario();
+		$usuarios = $DaoUsuario->getCliente($id);
         
 		Response::getInstance()
 				->setData($usuarios)

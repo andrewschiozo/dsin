@@ -20,6 +20,6 @@ $('#btn-login').click(function(){
         Leila.data.usuario = parseJwt(response.data.token)
         Leila.save()
 
-        loadView('home/home', '#view')
+        loadView(Leila.get().usuario.data.perfil == 'Gerente' ? 'home/home_gerente' : 'home/home_cliente', '#view')
     })
 })

@@ -24,5 +24,21 @@ class DaoServico extends DB
         $this->model = $ModelServico;
         return $this;
     }
+
+    public function getStatus()
+    {
+        $queryString = 'SELECT *
+                        FROM servico_situacao';
+        
+        $result = [];
+        try {
+            $stmt = $this->getConn()->prepare($queryString);
+            $stmt->execute();
+            $result = $stmt->fetchAll();
+        } catch (\PDOException $e) {
+            echo $e->getMessage();
+        }
+        return $result;
+    }
     
 }
