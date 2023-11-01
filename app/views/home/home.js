@@ -1,8 +1,11 @@
 setMenu()
 
+$('.usuario-nome').text(Leila.get().usuario.data.nome)
+
 //Funções
 function setMenu()
 {
+    $('#menus').html('')
     $.each(Leila.get().usuario.data.menu, function(index, menu){
         $('#menus').append($('<div>').addClass('col-1')
                 .append($('<button>').addClass('btn-menu btn')
@@ -20,8 +23,9 @@ $('.btn-menu').click(function(){
     $('.btn-menu').removeClass('btn-dark')
     $(this).addClass('btn-dark')
     
-    if(view == 'home/home')
+    if(view == 'home/home_cliente' || view == 'home/home_gerente')
     {
+        console.log(view)
         loadView(view, '#view')
         return
     }

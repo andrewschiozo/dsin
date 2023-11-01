@@ -46,7 +46,7 @@ class Login extends Controller
 				,'email' => $DaoUsuario->email
 				,'telefone' => $DaoUsuario->telefone
 				,'perfil' => $DaoUsuario->perfil
-				,'menu' => $this->getMenu()
+				,'menu' => $this->getMenu($DaoUsuario->perfil)
 			]
 		];
 		
@@ -56,33 +56,37 @@ class Login extends Controller
 				->ok();
 	}
 
-	private function getMenu()
+	private function getMenu($perfil = 'Cliente')
 	{
 		$menus = [];
 
 		$Home = new \stdClass;
 		$Home->nome = 'Home';
 		$Home->icone = 'fa-solid fa-house';
-		$Home->href = 'home/home';
+		$Home->href = ($perfil == 'Gerente') ? 'home/home_gerente' : 'home/home_cliente';
 		$menus[] = $Home;
 
+		
 		$Agenda = new \stdClass;
 		$Agenda->nome = 'Agenda';
 		$Agenda->icone = 'fa-solid fa-list';
-		$Agenda->href = 'agenda/agenda';
+		$Agenda->href = ($perfil == 'Gerente') ? 'agenda/agenda_gerente' : 'agenda/agenda_cliente';
 		$menus[] = $Agenda;
 
-		$Clientes = new \stdClass;
-		$Clientes->nome = 'Clientes';
-		$Clientes->icone = 'fa-solid fa-users';
-		$Clientes->href = 'cliente/cliente';
-		$menus[] = $Clientes;
+		if($perfil == 'Gerente')
+		{
+			$Clientes = new \stdClass;
+			$Clientes->nome = 'Clientes';
+			$Clientes->icone = 'fa-solid fa-users';
+			$Clientes->href = 'cliente/cliente';
+			$menus[] = $Clientes;
 
-		$Servicos = new \stdClass;
-		$Servicos->nome = 'Serviços';
-		$Servicos->icone = 'fa-solid fa-scissors';
-		$Servicos->href = 'servico/servico';
-		$menus[] = $Servicos;
+			$Servicos = new \stdClass;
+			$Servicos->nome = 'Serviços';
+			$Servicos->icone = 'fa-solid fa-scissors';
+			$Servicos->href = 'servico/servico';
+			$menus[] = $Servicos;
+		}
 
 		return $menus;
 	}
