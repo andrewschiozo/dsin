@@ -13,7 +13,7 @@ class Agenda extends PrivateController
         $this->checkPerfil();
 
         $DaoAgenda = new DaoAgenda();
-        $agenda = $DaoAgenda->getAgendamentos(Request::getDecodedToken()->data->id);
+        $agenda = $DaoAgenda->getAgendamentos();
         
 		Response::getInstance()
         ->setData($agenda)
